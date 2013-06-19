@@ -1,0 +1,8 @@
+#!/bin/sh
+
+for PROFILE in ~/.unison/*.prf
+do
+BASENAME=`basename "$PROFILE"`
+PROFILENAME="${BASENAME%.*}"
+unison "$PROFILENAME" -batch -ui text
+done
