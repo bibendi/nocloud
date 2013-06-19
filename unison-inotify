@@ -1,4 +1,4 @@
 #!/bin/sh
 PROFILE="$1"
 PROFILEPATH=`cat ~/.unison/"$1".prf | sed -e 's/ *= */=/' | grep '^root=' | head -n 1 | cut -d '=' -f 2`
-unison-signal "$PROFILEPATH" | unison-process "$PROFILE"
+unison-inotify-signal "$PROFILEPATH" | unison-inotify-process "$PROFILE"
