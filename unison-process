@@ -1,0 +1,113 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use File::Basename;
+use Gtk2::Notify -init, 'unison-inotify';
+
+sub parseline {
+    my @results;
+    @results = split( ':', $_[0], 3 );
+    return @results;
+}
+
+sub notify_error {
+    my $notification = Gtk2::Notify->new($ARGV[0], $_[0], "dialog-error");
+    $notification->show();
+}
+
+sub notify {
+    my $notification = Gtk2::Notify->new($ARGV[0], $_[0], "dialog-information");
+    $notification->show();
+}
+
+my $last         = 0;
+my $lastreadonly = 0;
+my $lastincoming = 0;
+
+while (1) {
+    my $line = <STDIN>;
+    chomp($line);
+    print "$line";
+    my ( $timestamp, $events,    $filepath ) = parseline($line);
+    my ( $filename,  $directory, $suffix )   = fileparse($filepath);
+
+    # Ignore creation of files (wait until they are closed)
+    if ( $events eq "CREATE" ) { print " => ignore-create-file\n"; next; }
+
+    my @eventArray = split( ',', $events );
+
+    #   # Ignore files created by unison, but report them as downloaded
+
+    if ( $filename =~ /^\.unison\..*$/ ) {
+        if ( $events eq "MOVED_FROM" || $events eq "MOVED_FROM,ISDIR" ) {
+            $line = <STDIN>;
+            chomp($line);
+            if ( $timestamp - $lastincoming < 10 ) {
+                print " => ignore-further-new-file\n";
+                next;
+            }
+
+            $lastincoming = $timestamp;
+            ( $timestamp, $events,    $filepath ) = parseline($line);
+            ( $filename,  $directory, $suffix )   = fileparse($filepath);
+            notify("$filename downloaded");
+            print " => notify-new-file\n";
+            next;
+        }
+        print " => ignore-unison-file\n";
+        next;
+    }
+
+    # Ignore writing to unison directory
+    if ( $filename eq ".unison" || $filepath =~ /^.*\/\.unison\/.*$/ ) {
+        print " => ignore-unison-dir\n";
+        next;
+    }
+
+    # Check if event might have been captured by the last run (as it was waiting)
+    if ( $timestamp - $last < 10 ) { print " => ignore-batch-covered\n"; next; }
+
+    # The current event only looked at some file. We see this as a demand for updating, but only every 5 minutes at max, as we don't wait we don't
+    # overwrite LAST
+    if ( $eventArray[0] eq "CLOSE_NOWRITE" ) {
+        if ( $timestamp - $lastreadonly < 300 ) {
+            print " => ignore-further-read\n";
+            next;
+        }
+
+        $lastreadonly = $timestamp;
+
+        #LOG=`unison "$1" -batch -ui text 2>&1 > /dev/null`
+        print " => sync-demand\n";
+        my $exit_code = system( 'unison', $ARGV[0], '-batch', '-ui', 'text' );
+        if ( $exit_code != 0 ) {
+            notify_error('Synchronization failed');
+        }
+        next;
+    }
+
+    # Ignore hidden files (but not directories if event is for file inside that directory)
+    if ( $filename =~ /^\..*$/ ) { print " => ignore-hidden-file\n"; next; }
+
+    $last = $timestamp;
+
+    # Also reset read only triggered demands
+    $lastreadonly = $timestamp;
+
+    # Write event - wait 10 seconds in order to capture a bigger batch
+    print " => sync-write\n";
+    sleep(10);
+
+    #LOG=`unison "$1" -batch -ui text 2>&1 > /dev/null`
+    my $exit_code = system( 'unison', $ARGV[0], '-batch', '-ui', 'text' );
+    if ( $exit_code == 0 ) {
+        if ( $eventArray[0] ne "DELETE" ) {
+            notify("$filename synchronized");
+        }
+    }
+    else {
+        notify_error("Synchronization failed");
+    }
+}
+

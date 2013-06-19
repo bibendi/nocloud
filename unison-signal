@@ -1,0 +1,2 @@
+#!/bin/sh
+inotifywait -mrq -e create,move,close,delete,attrib "$1" --timefmt %s --format %T:%e:%w%f
