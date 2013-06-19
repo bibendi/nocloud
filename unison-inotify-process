@@ -39,29 +39,26 @@ while (1) {
 
     #   # Ignore files created by unison, but report them as downloaded
 
-    if ( $filename =~ /^\.unison\..*$/ ) {
+    if ( $filepath =~ /^.*\/\.unison\..*$/ ) {
         if ( $events eq "MOVED_FROM" || $events eq "MOVED_FROM,ISDIR" ) {
             $line = <STDIN>;
             chomp($line);
+            
+            ( $timestamp, $events,    $filepath ) = parseline($line);
+            ( $filename,  $directory, $suffix )   = fileparse($filepath);
+            if ( $filepath =~ /^.*\/\.unison\..*$/ ) { print " => ignore-unison-move\n"; next; }
+            
             if ( $timestamp - $lastincoming < 10 ) {
                 print " => ignore-further-new-file\n";
                 next;
             }
 
             $lastincoming = $timestamp;
-            ( $timestamp, $events,    $filepath ) = parseline($line);
-            ( $filename,  $directory, $suffix )   = fileparse($filepath);
             notify("$filename downloaded");
             print " => notify-new-file\n";
             next;
         }
         print " => ignore-unison-file\n";
-        next;
-    }
-
-    # Ignore writing to unison directory
-    if ( $filename eq ".unison" || $filepath =~ /^.*\/\.unison\/.*$/ ) {
-        print " => ignore-unison-dir\n";
         next;
     }
 
