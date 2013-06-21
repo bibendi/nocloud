@@ -24,7 +24,6 @@ sub notify {
 my $last         = 0;
 my $lastreadonly = 0;
 my $lastincoming = 0;
-
 while (1) {
     my $line = <STDIN>;
     if (!defined $line) { last; }
@@ -109,4 +108,3 @@ while (1) {
         notify_error("Synchronization failed");
     }
 }
-

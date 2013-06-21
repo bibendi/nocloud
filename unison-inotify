@@ -1,4 +1,0 @@
-#!/bin/sh
-PROFILE="$1"
-PROFILEPATH=`cat ~/.unison/"$1".prf | sed -e 's/ *= */=/' | grep -v '^root=ssh://' | grep '^root=' | head -n 1 | cut -d '=' -f 2`
-unison-inotify-signal "$PROFILEPATH" | unison-inotify-process "$PROFILE"

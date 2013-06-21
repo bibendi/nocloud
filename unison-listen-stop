@@ -1,0 +1,12 @@
+#!/bin/bash
+
+PROFILE="$1"
+
+LOCKFILE="/tmp/unison-inotify-$USER/$PROFILE.lock"
+if [ ! -e "$LOCKFILE" ]; then
+	echo "$LOCKFILE does not exist. Aborting." >&2
+	exit 1
+fi
+
+echo "Stop listening to $PROFILE"
+kill `cat /tmp/unison-inotify-$USER/$PROFILE.lock`

@@ -1,0 +1,37 @@
+#!/bin/bash
+
+if [ ! -e "/tmp/unison-inotify-$USER" ]; then
+	mkdir "/tmp/unison-inotify-$USER"
+fi
+
+if [ ! -e "$HOME/.unison-inotify" ]; then
+        mkdir "$HOME/.unison-inotify"
+fi
+
+
+PROFILE="$1"
+if [ ! -e "$HOME/.unison/$PROFILE.prf" ]; then
+	echo "Unison profile $PROFILE doesn't exist" >&2
+	exit 1
+fi
+
+
+LOCKFILE="/tmp/unison-inotify-$USER/$PROFILE.lock"
+lockfile-create -r 0 -l "$LOCKFILE" 2> /dev/null
+if [[ $? != 0 ]]; then
+	echo "$LOCKFILE exists. Aborting." >&2
+	exit 1
+fi
+
+PROFILEPATH=`cat ~/.unison/"$PROFILE".prf | sed -e 's/ *= */=/' | grep -v '^root=ssh://' | grep '^root=' | head -n 1 | cut -d '=' -f 2`
+{
+LOGFILE="$HOME/.unison-inotify/$PROFILE.log"
+{
+unison-inotify-signal "$PROFILEPATH" | unison-inotify-process "$PROFILE" > "$LOGFILE" 2>&1
+} &
+trap "kill 0" SIGINT SIGTERM
+wait
+lockfile-remove -l "$LOCKFILE"
+} &
+CHILDPID=$!
+echo $CHILDPID > "$LOCKFILE"
