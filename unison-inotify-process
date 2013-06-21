@@ -27,6 +27,7 @@ my $lastincoming = 0;
 
 while (1) {
     my $line = <STDIN>;
+    if (!defined $line) { last; }
     chomp($line);
     print "$line";
     my ( $timestamp, $events,    $filepath ) = parseline($line);
@@ -42,6 +43,7 @@ while (1) {
     if ( $filepath =~ /^.*\/\.unison\..*$/ ) {
         if ( $events eq "MOVED_FROM" || $events eq "MOVED_FROM,ISDIR" ) {
             $line = <STDIN>;
+            if (!defined $line) { last; }
             chomp($line);
             
             ( $timestamp, $events,    $filepath ) = parseline($line);
