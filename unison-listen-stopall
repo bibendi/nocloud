@@ -1,0 +1,8 @@
+#!/bin/sh
+
+for PROFILE in /tmp/unison-inotify-$USER/*.lock
+do
+BASENAME=`basename "$PROFILE"`
+PROFILENAME="${BASENAME%.*}"
+unison-listen-stop "$PROFILENAME"
+done

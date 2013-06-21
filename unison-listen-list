@@ -1,0 +1,19 @@
+#!/bin/bash
+
+for PROFILE in ~/.unison/*.prf
+do
+BASENAME=`basename "$PROFILE"`
+PROFILENAME="${BASENAME%.*}"
+STATUS=stopped
+LOCKFILE="/tmp/unison-inotify-$USER/$PROFILENAME.lock"
+
+if [[ -e $LOCKFILE ]]; then
+	PID=`cat "$LOCKFILE"`
+	STATUS=orphaned
+	kill -0 $PID 2> /dev/null
+	if [[ $? -eq 0 ]]; then
+		STATUS=started
+	fi
+fi
+echo "$PROFILENAME: $STATUS"
+done

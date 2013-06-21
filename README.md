@@ -17,12 +17,15 @@ Principles:
 
 So far there is one tool. It listens to the changes you make to your directories, invokes unison for propagating these changes and then notifies you.
 
-unison-inotify <profilename>: Keeps your unison profile up to date by listening to your changes
-unison-inotify-all: Executes unison-inotify an all your profiles
+unison-listen-start <profilename>: Keeps your unison profile up to date by listening to your changes
+unison-listen-stop <profilename>: Stops listening on that profile
+unison-listen-startall: Listen on all profiles
+unison-listen-stopall: Stop listening for all running profiles
+unison-listen-list: List status of each profile
 unison-inotify-process <profilename>: (Takes stdin from unison-inotify-signal and sends
-unison-inotify-signal <directory>: (Calls inotifywait with correct output format)
-unison-syncall: Synchronizes all your unison profiles once (not related to the other tools)a
-unison-wakeall: Executes ls on each of your local unison roots to trigger updating of otherwise starving profiles.
+unison-inotify-signal <directory> <lockfile>: (Calls inotifywait with correct output format)
+unison-syncall: Synchronizes all your unison profiles once (not related to the other tools)
+unison-wakeall: Executes ls on each of your local unison roots to trigger updating of otherwise not updated profiles.
 
 Installation:
 1. Put all tools into a directory. make sure it is in $PATH whenever you use it.
