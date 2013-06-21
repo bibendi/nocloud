@@ -35,3 +35,4 @@ lockfile-remove -l "$LOCKFILE"
 } &
 CHILDPID=$!
 echo $CHILDPID > "$LOCKFILE"
+echo "Start listening to $PROFILE"

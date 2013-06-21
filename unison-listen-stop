@@ -9,4 +9,4 @@ if [ ! -e "$LOCKFILE" ]; then
 fi
 
 echo "Stop listening to $PROFILE"
-kill `cat /tmp/unison-inotify-$USER/$PROFILE.lock`
+kill `cat "$LOCKFILE"`

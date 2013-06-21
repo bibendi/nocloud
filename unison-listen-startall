@@ -4,6 +4,5 @@ for PROFILE in ~/.unison/*.prf
 do
 BASENAME=`basename "$PROFILE"`
 PROFILENAME="${BASENAME%.*}"
-unison-inotify "$PROFILENAME" -batch -ui text &
+unison-listen-start "$PROFILENAME"
 done
-wait
