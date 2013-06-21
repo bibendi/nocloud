@@ -5,7 +5,7 @@ do
 BASENAME=`basename "$PROFILE"`
 PROFILENAME="${BASENAME%.*}"
 
-PROFILEPATH=`cat ~/.unison/"$PROFILENAME".prf | sed -e 's/ *= */=/' | grep '^root=' | head -n 1 | cut -d '=' -f 2`
+PROFILEPATH=`cat ~/.unison/"$PROFILENAME".prf | sed -e 's/ *= */=/' | grep -v '^root=ssh://' | grep '^root=' | head -n 1 | cut -d '=' -f 2`
 ls "$PROFILEPATH" > /dev/null
 
 
