@@ -21,7 +21,7 @@ unison-listen-start <profilename>: Keeps your unison profile up to date by liste
 unison-listen-stop <profilename>: Stops listening on that profile
 unison-listen-startall: Listen on all profiles
 unison-listen-stopall: Stop listening for all running profiles
-unison-listen-list: List status of each profile
+unison-listen-status: List status of each profile
 unison-inotify-process <profilename>: (Takes stdin from unison-inotify-signal and instructs unison to synchronize)
 unison-inotify-signal <directory> <lockfile>: (Calls inotifywait with correct output format)
 unison-syncall: Synchronizes all your unison profiles once (not related to the other tools)
