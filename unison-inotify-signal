@@ -1,2 +1,7 @@
-#!/bin/sh
-inotifywait -mrq -e create,move,close,delete,attrib "$1" --timefmt %s --format %T:%e:%w%f
+#!/bin/bash
+inotifywait -mrq -e create,move,close,delete,attrib "$1" --timefmt %s --format %T:%e:%w%f &
+CHILDPID=$!
+trap "kill $CHILDPID" INT
+echo $CHILDPID > "$2"
+wait
+lockfile-remove -l "$2"

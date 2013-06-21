@@ -26,13 +26,6 @@ fi
 PROFILEPATH=`cat ~/.unison/"$PROFILE".prf | sed -e 's/ *= */=/' | grep -v '^root=ssh://' | grep '^root=' | head -n 1 | cut -d '=' -f 2`
 {
 LOGFILE="$HOME/.unison-inotify/$PROFILE.log"
-{
-unison-inotify-signal "$PROFILEPATH" | unison-inotify-process "$PROFILE" > "$LOGFILE" 2>&1
+unison-inotify-signal "$PROFILEPATH" "$LOCKFILE" 2> /dev/null | unison-inotify-process "$PROFILE" > "$LOGFILE" 2>&1
 } &
-trap "kill 0" SIGINT SIGTERM
-wait
-lockfile-remove -l "$LOCKFILE"
-} &
-CHILDPID=$!
-echo $CHILDPID > "$LOCKFILE"
 echo "Start listening to $PROFILE"
