@@ -1,6 +1,6 @@
 unison-listen
 =============
-So far there is one tool. It listens to the changes you make to your directories, invokes unison for propagating these changes and then notifies you.
+unison-listen listens to the changes you make to your unison-covered files and invokes unison for propagating these changes and then notifies you.
 
 unison-listen-start <profilename>: Keeps your unison profile up to date by listening to your changes
 unison-listen-stop <profilename>: Stops listening on that profile
