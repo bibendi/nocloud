@@ -1,7 +1,9 @@
 VERSION=0.1.1
 PREFIX=/usr/bin
 
-install:
+build:
+install: build
+	mkdir -p $(DESTDIR)$(PREFIX)
 	install unison-inotify-process $(DESTDIR)$(PREFIX)/unison-inotify-process
 	install unison-inotify-signal $(DESTDIR)$(PREFIX)/unison-listen-start
 	install unison-listen-start $(DESTDIR)$(PREFIX)/unison-listen-start
@@ -28,3 +30,7 @@ uninstall:
 	rm $(DESTDIR)$(PREFIX)/unison-listen-stop
 	rm $(DESTDIR)$(PREFIX)/unison-syncall
 	rm $(DESTDIR)$(PREFIX)/unison-wakeall
+deb: tar
+	cp -r debian unison-listen-$(VERSION)
+	cd unison-listen-$(VERSION)
+	debuild -us -uc

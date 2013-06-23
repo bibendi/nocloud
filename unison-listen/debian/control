@@ -1,0 +1,11 @@
+Source: unison-listen
+Maintainer: Dimitri Nüscheler <dimitri.nuescheler@gmail.com>
+Section: utils
+Priority: optional
+Standards-Version: 3.9.2
+Build-Depends: debhelper (>= 8)
+
+Package: unison-listen
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Propagate changes to files in your unison-profiles immediately.
