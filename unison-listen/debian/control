@@ -2,10 +2,11 @@ Source: unison-listen
 Maintainer: Dimitri Nüscheler <dimitri.nuescheler@gmail.com>
 Section: utils
 Priority: optional
-Standards-Version: 3.9.2
+Standards-Version: 3.9.4
 Build-Depends: debhelper (>= 8)
 
 Package: unison-listen
 Architecture: all
-Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: Propagate changes to files in your unison-profiles immediately.
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${perl:Depends}, libgtk2-notify-perl, bash, unison | unison-gtk, inotifytools
+Description: Propagate changes to files in your unison-profiles immediately
+ daemon monitoring your unison profiles for changes using inotify.

@@ -15,7 +15,7 @@ install: build
 	install unison-wakeall $(DESTDIR)$(PREFIX)/unison-wakeall
 tar:
 	mkdir unison-listen-$(VERSION)
-	cp Makefile unison-inotify-process unison-inotify-signal unison-listen-start unison-listen-startall unison-listen-status unison-listen-stop unison-listen-stopall unison-syncall unison-wakeall unison-listen-$(VERSION)
+	cp README Makefile unison-inotify-process unison-inotify-signal unison-listen-start unison-listen-startall unison-listen-status unison-listen-stop unison-listen-stopall unison-syncall unison-wakeall unison-listen-$(VERSION)
 	tar -czf unison-listen_$(VERSION).orig.tar.gz unison-listen-$(VERSION)
 clean:
 	rm -rf unison-listen-$(VERSION)
@@ -30,7 +30,3 @@ uninstall:
 	rm $(DESTDIR)$(PREFIX)/unison-listen-stop
 	rm $(DESTDIR)$(PREFIX)/unison-syncall
 	rm $(DESTDIR)$(PREFIX)/unison-wakeall
-deb: tar
-	cp -r debian unison-listen-$(VERSION)
-	cd unison-listen-$(VERSION)
-	debuild -us -uc
