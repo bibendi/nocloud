@@ -5,12 +5,12 @@ build:
 install: build
 	mkdir -p $(DESTDIR)$(PREFIX)
 	install unison-inotify-process $(DESTDIR)$(PREFIX)/unison-inotify-process
-	install unison-inotify-signal $(DESTDIR)$(PREFIX)/unison-listen-start
+	install unison-inotify-signal $(DESTDIR)$(PREFIX)/unison-inotify-signal
 	install unison-listen-start $(DESTDIR)$(PREFIX)/unison-listen-start
 	install unison-listen-startall $(DESTDIR)$(PREFIX)/unison-listen-startall
 	install unison-listen-status $(DESTDIR)$(PREFIX)/unison-listen-status
 	install unison-listen-stop $(DESTDIR)$(PREFIX)/unison-listen-stop
-	install unison-listen-stopall $(DESTDIR)$(PREFIX)/unison-listen-stop
+	install unison-listen-stopall $(DESTDIR)$(PREFIX)/unison-listen-stopall
 	install unison-syncall $(DESTDIR)$(PREFIX)/unison-syncall
 	install unison-wakeall $(DESTDIR)$(PREFIX)/unison-wakeall
 tar:
