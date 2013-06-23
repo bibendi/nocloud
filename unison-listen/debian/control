@@ -7,6 +7,6 @@ Build-Depends: debhelper (>= 8)
 
 Package: unison-listen
 Architecture: all
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${perl:Depends}, libgtk2-notify-perl, bash (>= 4.2), unison | unison-gtk, inotifytools
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${perl:Depends}, libgtk2-notify-perl, bash (>= 4.2), unison | unison-gtk, inotify-tools
 Description: Propagate changes to files in your unison-profiles immediately
  daemon monitoring your unison profiles for changes using inotify.
