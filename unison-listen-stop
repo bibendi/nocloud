@@ -9,4 +9,9 @@ if [ ! -e "$LOCKFILE" ]; then
 fi
 
 echo "Stop listening to $PROFILE"
-kill `cat "$LOCKFILE"`
+PID=`cat "$LOCKFILE"`
+if [[ $PID -eq 0 ]]; then
+	echo "Invalid PID: $PID"
+	exit
+fi
+kill $PID

@@ -4,4 +4,3 @@ CHILDPID=$!
 trap "kill $CHILDPID" INT
 echo $CHILDPID > "$2"
 wait
-lockfile-remove -l "$2"

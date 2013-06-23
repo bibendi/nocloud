@@ -27,5 +27,7 @@ PROFILEPATH=`cat ~/.unison/"$PROFILE".prf | sed -e 's/ *= */=/' | grep -v '^root
 {
 LOGFILE="$HOME/.unison-inotify/$PROFILE.log"
 unison-inotify-signal "$PROFILEPATH" "$LOCKFILE" 2> /dev/null | unison-inotify-process "$PROFILE" > "$LOGFILE" 2>&1
+wait
+lockfile-remove -l "$LOCKFILE"
 } &
 echo "Start listening to $PROFILE"
