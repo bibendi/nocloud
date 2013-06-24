@@ -1,5 +1,5 @@
-unison-listen (0.1.1-1) UNRELEASED; urgency=low
+unison-listen (0.1.2-1) UNRELEASED; urgency=low
 
-  * Initial release.
+  * Ignore lock-files.
 
- -- Dimitri Nüscheler <dimitri.nuescheler@gmail.com>  Sun, 23 Jun 2013 23:51:23 +0200
+ -- Dimitri Nüscheler <dimitri.nuescheler@gmail.com>  Mon, 24 Jun 2013 10:00:08 +0200
