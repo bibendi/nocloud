@@ -1,5 +1,6 @@
-unison-listen (0.1.2-1) UNRELEASED; urgency=low
+unison-listen (0.1.3-1) UNRELEASED; urgency=low
 
   * Ignore lock-files.
+  * Remove dependency on lock file utilities
 
- -- Dimitri Nüscheler <dimitri.nuescheler@gmail.com>  Mon, 24 Jun 2013 10:00:08 +0200
+ -- Dimitri Nüscheler <testi@testi-acer>  Mon, 08 Jul 2013 10:36:47 +0200

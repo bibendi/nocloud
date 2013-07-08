@@ -17,17 +17,20 @@ fi
 
 
 LOCKFILE="/tmp/unison-inotify-$USER/$PROFILE.lock"
-lockfile-create -r 0 -l "$LOCKFILE" 2> /dev/null
+
+set -o noclobber
+> "$LOCKFILE"
 if [[ $? != 0 ]]; then
 	echo "$LOCKFILE exists. Aborting." >&2
 	exit 1
 fi
+set +o noclobber
 
 PROFILEPATH=`cat ~/.unison/"$PROFILE".prf | sed -e 's/ *= */=/' | grep -v '^root=ssh://' | grep '^root=' | head -n 1 | cut -d '=' -f 2`
 {
 LOGFILE="$HOME/.unison-inotify/$PROFILE.log"
 unison-inotify-signal "$PROFILEPATH" "$LOCKFILE" 2> /dev/null | unison-inotify-process "$PROFILE" > "$LOGFILE" 2>&1
 wait
-lockfile-remove -l "$LOCKFILE"
+rm "$LOCKFILE"
 } &
 echo "Start listening to $PROFILE"
