@@ -86,7 +86,7 @@ while (1) {
     }
 
     # Ignore hidden files (but not directories if event is for file inside that directory)
-    if ( $filename =~ /^\..*$/ ) { print " => ignore-hidden-file\n"; next; }
+    #if ( $filename =~ /^\..*$/ ) { print " => ignore-hidden-file\n"; next; }
     # Ignore lock-files
     if ( $filename =~ /^.*\.lock$/ ) { print " => ignore-lock-file\n"; next; }
 
