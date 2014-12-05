@@ -64,7 +64,7 @@ while (1) {
     }
 
     # Check if event might have been captured by the last run (as it was waiting)
-    if ( $timestamp - $last < 10 ) { print " => ignore-batch-covered\n"; next; }
+    if ( $timestamp - $last < 5 ) { print " => ignore-batch-covered\n"; next; }
 
     # The current event only looked at some file. We see this as a demand for updating, but only every 5 minutes at max, as we don't wait we don't
     # overwrite LAST
@@ -97,7 +97,7 @@ while (1) {
 
     # Write event - wait 10 seconds in order to capture a bigger batch
     print " => sync-write\n";
-    sleep(10);
+    sleep(5);
 
     #LOG=`unison "$1" -batch -ui text 2>&1 > /dev/null`
     my $exit_code = system( 'unison', $ARGV[0], '-batch', '-ui', 'text' );
